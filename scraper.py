@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import re
+import re 
 from datetime import datetime 
 
 # --- CONFIGURATION (CRUCIAL) ---
