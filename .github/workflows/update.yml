@@ -1,23 +1,23 @@
 name: Program Scraper Automation
 
 on:
-  # Schedule to run every day at 05:00 AM UTC
   schedule:
     - cron: '0 5 * * *'
-  # Allows manual triggering from the GitHub Actions tab
   workflow_dispatch:
 
-jobs:
-  scrape_and_deploy:
-    runs-on: ubuntu-latest
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
+jobs:
+  build:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # Required to allow the action to commit changes back
-          fetch-depth: 0 
-          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -31,11 +31,14 @@ jobs:
 
       - name: Run Scraper Script
         run: python scraper.py
-        
-      # This step commits the changes if the scraper.py script updated index.html
-      - name: Commit and Push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
         with:
-          commit_message: "🤖 AUTOMATION: Update program listings via scraper.py"
-          # Only commit the index.html file
-          files: index.html
+          path: .   # MUST include index.html at root
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-
