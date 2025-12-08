@@ -5,19 +5,23 @@ on:
     branches:
       - main
   schedule:
-    # Runs at 00:00 (midnight) UTC every day
     - cron: '0 0 * * *'
   workflow_dispatch:
-    # Allows manual triggering from the GitHub Actions tab
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     
+    # 🚨 ADD THIS BLOCK 🚨
+    permissions:
+      contents: write # Grants the necessary permission to push commits
+      
     steps:
       
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v4
+
+      # ... (rest of the steps remain the same) ...
 
       - name: 🐍 Set up Python
         uses: actions/setup-python@v5
@@ -27,7 +31,6 @@ jobs:
       - name: 📦 Install dependencies
         run: |
           python -m pip install --upgrade pip
-          # Assuming you need requests and beautifulsoup4
           pip install requests beautifulsoup4
           
       - name: 🏃 Run Python Scraper
@@ -37,5 +40,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: '⚙️ SCRAPER: Updated program listings [skip ci]'
-          # Ensure only index.html is committed
           file_pattern: index.html
