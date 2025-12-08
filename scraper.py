@@ -9,32 +9,27 @@ INDEX_FILE = "index.html"
 START_MARKER = ""
 END_MARKER = ""
 
-# --- HTML CARD TEMPLATE (Guarantees Correct Styling) ---
+# --- HTML CARD TEMPLATE (Updated for the new 'wide-card' style) ---
 PROGRAM_CARD_TEMPLATE = """
-<div class="iphone-frame" id="card-{card_id}">
+<div class="wide-card" id="card-{card_id}">
     <header>
-        <div class="card-title-group">
-            <h1>{title}</h1>
-            <h2>{icon_emoji} {location_display}</h2>
-        </div>
-        <div class="reindeer-icon"></div>
+        <h1>{title}</h1>
+        <h2>{icon_emoji} {location_display}</h2>
     </header>
     
-    <h4>📅 Date:</h4>
-    <p class="subtitle">{date_line}</p>
-
-    {time_html}
-
-    <section>
-        <a href="{register_link}" class="button" target="_blank">Register Now ♡</a>
-    </section>
-    
-    <footer>
-        <div class="location-text">
-            <strong>Location Details:</strong> {location}
+    <div class="detail-group">
+        <div class="detail-item">
+            <strong>📅 Date:</strong>
+            {date_line}
         </div>
-        <div class="footer"> ॐ Jai Guru Dev ॐ </div>
-    </footer>
+        <div class="detail-item">
+            <strong>🕒 Time:</strong>
+            {time_line}
+        </div>
+    </div>
+
+    <a href="{register_link}" class="action-button" target="_blank">Register Now ♡</a>
+    <div class="reindeer-icon"></div>
 </div>
 """
 # --- END TEMPLATE ---
@@ -48,16 +43,14 @@ def generate_card_html(title, date_time, location, register_link):
     # Split date and time for template variables
     parts = date_time.split(' | ')
     date_line = parts[0].strip()
-    time_line = parts[1].strip() if len(parts) > 1 else ""
+    # If time is missing, use a placeholder (the card will still look good due to the new layout)
+    time_line = parts[1].strip() if len(parts) > 1 else "See Details" 
 
     location_parts = [p.strip() for p in location.split(',')]
     location_display = location_parts[0] if location_parts else "See Details"
     
     is_online = "online" in location.lower()
     icon_emoji = "💻" if is_online else "📍"
-
-    # Conditional Time HTML
-    time_html = f'<h4>🕒 Time:</h4><p class="subtitle">{time_line}</p>' if time_line else ''
 
     # Populate the template
     return PROGRAM_CARD_TEMPLATE.format(
@@ -66,13 +59,13 @@ def generate_card_html(title, date_time, location, register_link):
         icon_emoji=icon_emoji,
         location_display=location_display,
         date_line=date_line,
-        time_html=time_html,
+        time_line=time_line,  # Directly uses placeholder text if empty
         register_link=register_link,
         location=location
     )
 
 
-# --- MAIN SCRAPING AND FILE UPDATE LOGIC (Same as before, but with robust selectors) ---
+# --- MAIN SCRAPING AND FILE UPDATE LOGIC (Same robust logic) ---
 
 def scrape_and_update_index():
     """Fetches data, processes it, and updates the index.html file."""
@@ -93,7 +86,6 @@ def scrape_and_update_index():
     
     try:
         # 2. Find all program listings
-        # Find all 'Register' links and get the parent block
         register_buttons = soup.select('a[href]:contains("Register")')
         
         program_elements = []
@@ -110,15 +102,12 @@ def scrape_and_update_index():
         for program_element in program_elements:
             # 3. Extract Data
 
-            # Title: Find the first bold text that looks like a title
             title_tag = program_element.find(lambda tag: tag.name in ['h3', 'h4', 'div', 'p'] and len(tag.text.strip()) > 10 and any(keyword in tag.text for keyword in ['Program', 'Meditation', 'Yoga', 'Course']))
             title = title_tag.text.strip() if title_tag else "Program Title Unknown"
 
-            # Register Link
             register_link_tag = program_element.find('a', string=re.compile(r'Register'))
             register_link = register_link_tag['href'] if register_link_tag else "#"
 
-            # Date/Time
             date_time_text = ""
             date_time_match = re.search(r'(\d{1,2}-\d{1,2}\s+[A-Za-z]{3},\s*\d{4}.*?)(\s+various\s+timings|\s*\d{1,2}:\d{2}\s+[AP]M\s*-\s*\d{1,2}:\d{2}\s+[AP]M.*?)', program_element.text, re.IGNORECASE | re.DOTALL)
                 
@@ -127,13 +116,11 @@ def scrape_and_update_index():
                 time_part = date_time_match.group(2).strip()
                 date_time_text = f"{date_part} | {time_part}"
             
-            # Location
             location_text = "Location/Mode Details Missing"
             location_tag = program_element.find(lambda tag: re.search(r'\d{6}', tag.text) or re.search(r'Online', tag.text))
             
             if location_tag:
                 location_text = location_tag.text.strip()
-                # Clean up known unwanted surrounding text (phone, email, price)
                 location_text = re.sub(r':\s*\d{10}\s*:\s*[^@\s]+\s*@[^@\s]+\.[^@\s]+', '', location_text, flags=re.DOTALL).strip()
                 location_text = re.sub(r'with Vishal Merani.*', '', location_text, flags=re.DOTALL).strip()
                 location_text = re.sub(r'₹\s*[\d,]+\*.*', '', location_text, flags=re.DOTALL).strip()
