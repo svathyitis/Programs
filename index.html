@@ -27,7 +27,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    font-size: 0.9em; /* Slightly larger base font */
+    font-size: 0.9em;
     line-height: 1.5;
     background: var(--bg);
     color: var(--text);
@@ -44,7 +44,7 @@ body {
     margin-bottom: 20px;
 }
 
-/* --- 3. WIDE CARD STYLING (The New Look) --- */
+/* --- 3. WIDE CARD STYLING (The Program Look) --- */
 .wide-card {
     background: var(--card-bg);
     border-radius: 12px;
@@ -124,144 +124,4 @@ body {
     position: absolute;
     top: 10px;
     right: 15px;
-    font-size: 1.2em;
-    z-index: 10;
-}
-.reindeer-icon::before {
-    content: '🦌';
-}
-.gift-icon {
-    position: absolute;
-    bottom: 10px;
-    right: 15px;
-    font-size: 1.2em;
-    z-index: 10;
-}
-.gift-icon::before {
-    content: '🎁';
-}
-
-/* --- 5. FOOTER AND OTHER SECTIONS --- */
-.image-card {
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 15px;
-    width: 100%;
-}
-.image-card img {
-    width: 100%;
-    display: block;
-}
-
-.footer-text {
-    font-size: 0.7rem;
-    color: var(--muted);
-    text-align: center;
-    margin-top: 20px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border);
-}
-
-/* Style for manual form/contact card */
-.contact-form label {
-    display: block;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 4px;
-    margin-top: 10px;
-}
-.contact-form input[type="text"], .contact-form textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 0.9em;
-    font-family: 'Inter', sans-serif;
-}
-.contact-form textarea {
-    resize: vertical;
-    min-height: 80px;
-}
-.contact-form .submit-button {
-    margin-top: 15px;
-    border: none;
-    cursor: pointer;
-}
-</style>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QL72FZ9YZ2"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('config', 'G-QL72FZ9YZ2');
-</script>
-
-</head>
-
-<body>
-
-<div class="container">
-
-    <div class="image-card">
-        <img src="zenvm.png" alt="Vishal Merani Meditation" />
-    </div>
-
-    <div class="wide-card" id="card-seva">
-        <header>
-            <h1>Seva सेवा</h1>
-            <h2>To serve, to attend to, to honor — Join the movement.</h2>
-        </header>
-
-        <section class="contact-form">
-            <form action="https://formsubmit.co/vishal.merani@artofliving.org" method="POST">
-                
-                <label for="seva-name">Your Name</label>
-                <input type="text" name="Name" id="seva-name" required>
-                
-                <label for="seva-number">Contact Number</label>
-                <input type="text" name="Contact Number" id="seva-number" required>
-
-                <label for="seva-note">Small Note / Interest</label>
-                <textarea name="Note" id="seva-note" required placeholder="I am interested in Seva and would like to help..."></textarea>
-                
-                <input type="hidden" name="_subject" value="New Seva Interest from Linktree Page">
-                
-                <input type="submit" value="Drop a small note and Send 📧 ♡" class="action-button submit-button">
-            </form>
-        </section>
-        
-        <div class="gift-icon"></div>
-    </div>
-    
-    
-    <div class="wide-card" id="card-podcasts">
-        <header>
-            <h1>Podcasts</h1>
-            <h2>Curated talks & insights on wisdom, meditation, and life.</h2>
-        </header>
-        
-        <a href="https://podcasts.vishalmerani.com/" class="action-button" target="_blank">🎧 Listen Now</a>
-    </div>
-
-</div>
-
-<div class="container" style="text-align: center;">
-    <div class="footer-text">
-        ॐ Jai Guru Dev ॐ | Vishal Merani Programs
-    </div>
-    <div style="margin-top: 15px;">
-        <a href="https://www.instagram.com/meranivishal/" target="_blank" style="margin: 0 10px;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_icon.png" alt="Instagram" width="30">
-        </a>
-        <a href="https://x.com/meranivishal" target="_blank" style="margin: 0 10px;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" alt="Twitter" width="30">
-        </a>
-        <a href="https://in.linkedin.com/in/vishal-merani" target="_blank" style="margin: 0 10px;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" alt="LinkedIn" width="30">
-        </a>
-    </div>
-</div>
-
-</body>
-</html>
+    font
