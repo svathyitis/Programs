@@ -11,10 +11,10 @@ on:
     # Allows manual triggering from the GitHub Actions tab
 
 jobs:
-  deploy: # This is the job name that was failing
+  deploy:
     runs-on: ubuntu-latest
     
-    steps: # <-- The missing 'steps' key is added here!
+    steps:
       
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v4
@@ -37,5 +37,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: '⚙️ SCRAPER: Updated program listings [skip ci]'
-          # Ensure only index.html is committed to avoid committing other temp files
-          files: index.html
+          # Ensure only index.html is committed
+          file_pattern: index.html
